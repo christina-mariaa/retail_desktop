@@ -30,5 +30,10 @@ namespace RetailDesktop
         {
             MainContent.Content = new ProductsView();
         }
+
+        private void ShowLocations(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new LocationsView();
+        }
     }
 }
