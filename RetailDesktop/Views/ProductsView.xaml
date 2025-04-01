@@ -23,7 +23,7 @@
                 <GridView>
                     <GridViewColumn Header="Код" DisplayMemberBinding="{Binding Code}" Width="50"/>
                     <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                    <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Price}" Width="50"/>
+                    <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding CurrentPrice}" Width="50"/>
                     <GridViewColumn Header="Бренд" DisplayMemberBinding="{Binding Brand}" Width="150"/>
                     <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Category}" Width="150"/>
                 </GridView>
@@ -36,14 +36,14 @@
                 Command="{Binding LoadProductsCommand}" 
                 Height="30"
                 Width="150"
-                Margin="10"/>
+                Margin="10,0,10,0"/>
 
             <Button 
                 Content="Добавить товар" 
                 Command="{Binding AddProductCommand}" 
                 Height="30"
                 Width="150"
-                Margin="10"/> 
+                Margin="10,0,10,0"/> 
         </StackPanel>
     </Grid>
 </UserControl>

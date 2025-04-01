@@ -2,6 +2,7 @@
 using RetailDesktop.Helpers;
 using RetailDesktop.Models;
 using RetailDesktop.Services;
+using RetailDesktop.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,7 @@ namespace RetailDesktop.ViewModels
     {
         public ObservableCollection<Product> Products { get; private set; }
         public ICommand LoadProductsCommand { get; private set; }
+        public ICommand AddProductCommand { get; private set; }
         private readonly ProductService productService;
 
         public ProductsViewModel()
@@ -26,6 +28,7 @@ namespace RetailDesktop.ViewModels
             Products = new ObservableCollection<Product>();
             productService = new ProductService();
             LoadProductsCommand = new RelayCommand(LoadProducts);
+            AddProductCommand = new RelayCommand(AddProduct);
 
         }
 
@@ -41,5 +44,26 @@ namespace RetailDesktop.ViewModels
             }
         }
 
+        private void AddProduct()
+        {
+            var window = new AddProductWindow();
+            bool? result = window.ShowDialog();
+
+            if (result == true)
+            {
+                Product newProduct = window.NewProduct;
+                bool success = productService.AddProduct(newProduct);
+
+                if (success) 
+                {
+                    newProduct.CurrentPrice = newProduct.Price;
+                    Products.Add(newProduct);
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при добавлении товара на сервер.");
+                }
+            }
+        }
     }
 }

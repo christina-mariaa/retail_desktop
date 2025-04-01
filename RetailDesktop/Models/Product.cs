@@ -9,14 +9,21 @@ namespace RetailDesktop.Models
 {
     public class Product
     {
-        public int Code { get; set; }
+        [JsonProperty("code")]
+        public string Code { get; set; }
+        [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("brand")]
         public string Brand { get; set; }
 
         [JsonProperty("current_price")]
-        public decimal Price { get; set; }
+        public decimal? CurrentPrice { get; set; }
 
-        public ProductCategory Category { get; set; }
+        [JsonProperty("price")]
+        public decimal? Price { get; set; }
+
+        [JsonProperty("category")]
+        public int? Category { get; set; }
 
     }
 }

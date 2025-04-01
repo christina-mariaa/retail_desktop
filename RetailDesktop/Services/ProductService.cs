@@ -15,7 +15,8 @@ namespace RetailDesktop.Services
     {
         private readonly HttpClient httpClient;
 
-        public ProductService() {
+        public ProductService()
+        {
             httpClient = new HttpClient();
         }
 
@@ -23,25 +24,63 @@ namespace RetailDesktop.Services
         {
             string url = Constants.BaseUrl + "products/";
 
-            using (var client = new HttpClient())
+            try
             {
-                try
+                var response = httpClient.GetAsync(url).Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = client.GetAsync(url).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string json = response.Content.ReadAsStringAsync().Result;
-                        List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
-                        return products;
-                    }
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+                    return products;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка загрузки списка товаров:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                return new List<Product>();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки списка товаров:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return new List<Product>();
+        }
+
+        public bool AddProduct(Product product)
+        {
+            string url = Constants.BaseUrl + "products/";
+
+            try
+            {
+                string json = JsonConvert.SerializeObject(product);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = httpClient.PostAsync(url, content).Result;
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка добавления товара:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
+        public List<ProductCategory> GetProductCategories()
+        {
+            string url = Constants.BaseUrl + "product-categories/";
+
+            try
+            {
+                var response = httpClient.GetAsync(url).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    List<ProductCategory> productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(json);
+                    return productCategories;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки категорий товаров:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return new List<ProductCategory>();
         }
     }
 }
