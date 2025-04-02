@@ -1,0 +1,59 @@
+﻿<Window x:Class="RetailDesktop.Views.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RetailDesktop.Views"
+        mc:Ignorable="d"
+        Title="AddEmployeeWindow" Height="400" MinHeight="350" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock Text="Имя" Margin="0,0,0,5"/>
+            <TextBox x:Name="NameBox" Width="150" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left">
+            <TextBlock Text="Фамилия" Margin="0,0,0,5"/>
+            <TextBox x:Name="SurnameBox"  Width="350" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Left">
+            <TextBlock Text="Отчество" Margin="0,0,0,5"/>
+            <TextBox x:Name="MiddleNameBox"  Width="350" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" HorizontalAlignment="Left">
+            <TextBlock Text="Должность" Margin="0,0,0,5"/>
+            <ComboBox x:Name="PositionBox"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Id"
+                  Height="25"
+                  Width="150"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" HorizontalAlignment="Left">
+            <TextBlock Text="Магазин" Margin="0,0,0,5"/>
+            <ComboBox x:Name="LocationBox"
+                  DisplayMemberPath="Address"
+                  SelectedValuePath="Code"
+                  Height="25"
+                  Width="350"/>
+        </StackPanel>
+
+        <Button Content="Сохранить"
+            Grid.Row="5"
+            HorizontalAlignment="Center"
+            Height="30"
+            Width="100"
+            Click="SaveButton_Click" />
+    </Grid>
+</Window>

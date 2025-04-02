@@ -13,6 +13,7 @@
         <StackPanel DockPanel.Dock="Left" MinWidth="200" Background="LightGray" >
             <Button Content="Товары" Click="ShowProducts" Margin="10" Height="30" Background="White" />
             <Button Content="Магазины и склады" Click="ShowLocations" Margin="10" Height="30" Background="White" />
+            <Button Content="Сотрудники" Click="ShowEmployees" Margin="10" Height="30" Background="White" />
         </StackPanel>
         <ContentControl x:Name="MainContent" />
     </DockPanel>

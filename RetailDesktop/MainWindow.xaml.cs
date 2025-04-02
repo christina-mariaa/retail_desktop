@@ -35,5 +35,10 @@ namespace RetailDesktop
         {
             MainContent.Content = new LocationsView();
         }
+
+        private void ShowEmployees(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new EmployeesView();
+        }
     }
 }
