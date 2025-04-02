@@ -42,5 +42,23 @@ namespace RetailDesktop.Services
 
             return new List<Location>();
         }
+
+        public bool AddLocation(Location location)
+        {
+            string url = Constants.BaseUrl + "locations/";
+
+            try
+            {
+                string json = JsonConvert.SerializeObject(location);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = httpClient.PostAsync(url, content).Result;
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка добавления магазина/склада:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
     }
 }

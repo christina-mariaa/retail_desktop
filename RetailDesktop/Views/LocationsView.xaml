@@ -42,7 +42,7 @@
 
             <Button 
             Content="Добавить магазин/склад" 
-             
+            Command="{Binding AddLocationCommand}"
             Height="30"
             Width="200"
             Margin="10,0,10,0"/>

@@ -34,6 +34,16 @@ namespace RetailDesktop.Views
         private void SaveButton_click(object sender, RoutedEventArgs e)
         {
             var selectedCategory = CategoryBox.SelectedItem as ProductCategory;
+            if (CodeBox.Text == "")
+            {
+                MessageBox.Show("Введите код продукта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (NameBox.Text == "")
+            {
+                MessageBox.Show("Введите название продукта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             
             if (decimal.TryParse(PriceBox.Text, out decimal price) && price > 0)
             {
