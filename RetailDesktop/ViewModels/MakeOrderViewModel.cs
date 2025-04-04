@@ -50,13 +50,14 @@ namespace RetailDesktop.ViewModels
         public ICommand SubmitOrderCommand { get; }
 
         private readonly OrderService orderService;
+        private readonly LocationService locationService;
 
         public bool IsStoreSelected => SelectedStore != null;
 
 
         public MakeOrderViewModel()
         {            
-            Locations = new ObservableCollection<Location>(new LocationService().GetLocations());
+            Locations = new ObservableCollection<Location>();
             Clients = new ObservableCollection<Counteragent>(new CounteragentService().GetCouteragent(true));
             Employees = new ObservableCollection<Employee>(new EmployeeService().GetEmployees());
             OrderPickers = new ObservableCollection<Employee>();
@@ -70,8 +71,16 @@ namespace RetailDesktop.ViewModels
             SubmitOrderCommand = new RelayCommand(SubmitOrder);
 
             orderService = new OrderService();
+            locationService = new LocationService();
         }
 
+        public async Task InitializeAsync()
+        {
+            var loadedLocations = await locationService.GetLocations();
+            Locations = new ObservableCollection<Location>(loadedLocations);
+
+            OnPropertyChanged(nameof(Locations));
+        }
         private void AddProduct()
         {
             OrderItems.Add(new OrderItemPost());

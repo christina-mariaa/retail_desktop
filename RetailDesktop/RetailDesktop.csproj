@@ -73,6 +73,8 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\PurchaseItemModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
+    <Compile Include="Models\Transfer.cs" />
+    <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Services\CounteragentService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\LocationService.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="ViewModels\OrdersViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
     <Compile Include="ViewModels\PurchaseViewModel.cs" />
+    <Compile Include="ViewModels\TransferViewModel.cs" />
     <Compile Include="Views\AddCounteragentWindow.xaml.cs">
       <DependentUpon>AddCounteragentWindow.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,9 @@
     </Compile>
     <Compile Include="Views\SuppliersView.xaml.cs">
       <DependentUpon>SuppliersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransferView.xaml.cs">
+      <DependentUpon>TransferView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SuppliersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransferView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

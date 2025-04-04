@@ -23,14 +23,18 @@ namespace RetailDesktop.Views
         public AddEmployeeWindow()
         {
             InitializeComponent();
-            LoadLocations();
             LoadPositions();
+            Loaded += async (s, e) =>
+            {
+                await LoadLocations();
+                LoadPositions();
+            };
         }
 
-        private void LoadLocations()
+        private async Task LoadLocations()
         {
             var locationService = new LocationService();
-            List<Location> locations = locationService.GetLocations();
+            List<Location> locations = await locationService.GetLocations();
             LocationBox.ItemsSource = locations;
         }
 

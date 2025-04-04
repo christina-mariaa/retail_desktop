@@ -20,13 +20,13 @@ namespace RetailDesktop.Services
             httpClient = new HttpClient();
         }
 
-        public List<Location> GetLocations()
+        public async Task<List<Location>> GetLocations()
         {
             string url = Constants.BaseUrl + "locations/";
 
             try
             {
-                var response = httpClient.GetAsync(url).Result;
+                var response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -43,7 +43,7 @@ namespace RetailDesktop.Services
             return new List<Location>();
         }
 
-        public bool AddLocation(Location location)
+        public async Task<bool> AddLocation(Location location)
         {
             string url = Constants.BaseUrl + "locations/";
 
@@ -51,7 +51,7 @@ namespace RetailDesktop.Services
             {
                 string json = JsonConvert.SerializeObject(location);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = httpClient.PostAsync(url, content).Result;
+                var response = await httpClient.PostAsync(url, content);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)

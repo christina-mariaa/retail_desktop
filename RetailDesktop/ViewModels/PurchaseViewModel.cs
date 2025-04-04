@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace RetailDesktop.ViewModels
 {
-    public class PurchaseViewModel
+    public class PurchaseViewModel : ViewModelBase
     {
         public PurchaseModel Purchase { get; set; }
         public ObservableCollection<PurchaseItemModel> PurchaseItems { get; set; }
@@ -42,7 +42,27 @@ namespace RetailDesktop.ViewModels
             locationService = new LocationService();
 
             Suppliers = new ObservableCollection<Counteragent>(counteragentService.GetCouteragent(false));
-            Warehouses = new ObservableCollection<Location>(locationService.GetLocations().Where(l => !l.IsStore));
+            Warehouses = new ObservableCollection<Location>();
+        }
+
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                //// Загружаем поставщиков
+                //var suppliers = await Task.Run(() => counteragentService.GetCouteragent(false));
+                //Suppliers = new ObservableCollection<Counteragent>(suppliers);
+                //OnPropertyChanged(nameof(Suppliers));
+
+                var locations = await Task.Run(() => locationService.GetLocations());
+                var warehouses = locations.Where(l => !l.IsStore).ToList();
+                Warehouses = new ObservableCollection<Location>(warehouses);
+                OnPropertyChanged(nameof(Warehouses));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при инициализации:\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddItem()

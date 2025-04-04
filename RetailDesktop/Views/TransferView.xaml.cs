@@ -16,18 +16,15 @@ using System.Windows.Shapes;
 
 namespace RetailDesktop.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для PurchaseView.xaml
-    /// </summary>
-    public partial class PurchaseView : UserControl
+    public partial class TransferView : UserControl
     {
-        private readonly PurchaseViewModel viewModel;
+        private readonly TransferViewModel viewModel;
 
-        public PurchaseView()
+        public TransferView()
         {
             InitializeComponent();
 
-            viewModel = new PurchaseViewModel();
+            viewModel = new TransferViewModel();
             DataContext = viewModel;
 
             Loaded += async (s, e) => await viewModel.InitializeAsync();

@@ -1,4 +1,5 @@
 ﻿using RetailDesktop.Models;
+using RetailDesktop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,13 @@ namespace RetailDesktop.Views
 {
     public partial class MakeOrderWindow : Window
     {
-        public OrderPost NewOrder { get; set; }
+        private MakeOrderViewModel viewModel;
         public MakeOrderWindow()
         {
             InitializeComponent();
+            viewModel = new MakeOrderViewModel();
+            DataContext = viewModel;
+            Loaded += async (s, e) => await viewModel.InitializeAsync();
         }
     }
 }

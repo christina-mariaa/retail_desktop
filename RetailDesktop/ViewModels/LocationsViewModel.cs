@@ -29,9 +29,9 @@ namespace RetailDesktop.ViewModels
             LoadLocations();
         }
 
-        public void LoadLocations()
+        public async void LoadLocations()
         {
-            List<Location> locations = locationService.GetLocations ();
+            List<Location> locations = await locationService.GetLocations ();
 
             Locations.Clear ();
 
@@ -41,7 +41,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        public void AddLocation()
+        public async void AddLocation()
         {
             var window = new AddLocationWindow();
 
@@ -50,7 +50,7 @@ namespace RetailDesktop.ViewModels
             if (result == true)
             {
                 Location newLocation = window.NewLocation;
-                bool success = locationService.AddLocation(newLocation);
+                bool success = await locationService.AddLocation(newLocation);
 
                 if (success)
                 {
