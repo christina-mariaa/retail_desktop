@@ -24,16 +24,15 @@ namespace RetailDesktop.ViewModels
         public OrdersViewModel()
         {
             Orders = new ObservableCollection<OrderGet>();
-            LoadOrdersCommand = new RelayCommand(LoadOrders);
+            LoadOrdersCommand = new RelayCommand(async () => await LoadOrders());
             OpenOrderCommand = new RelayCommand(OpenOrderDetails);
             OpenCreateOrderWindowCommand = new RelayCommand(OpenCreateOrderWindow);
             orderService = new OrderService();
-            LoadOrders();
         }
 
-        private void LoadOrders()
+        public async Task LoadOrders()
         {
-            List<OrderGet> orders = orderService.GetOrders();
+            List<OrderGet> orders = await orderService.GetOrders();
 
             Orders.Clear();
             foreach (var order in orders)

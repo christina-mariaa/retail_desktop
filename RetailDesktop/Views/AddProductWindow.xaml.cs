@@ -23,12 +23,12 @@ namespace RetailDesktop.Views
         public AddProductWindow()
         {
             InitializeComponent();
-            LoadCategories();
+            Loaded += async (s, e) => await LoadCategories();
         }
-        private void LoadCategories()
+        private async Task LoadCategories()
         {
             var productService = new ProductService();
-            List<ProductCategory> categories = productService.GetProductCategories();
+            List<ProductCategory> categories = await productService.GetProductCategories();
             CategoryBox.ItemsSource = categories;
         }
 

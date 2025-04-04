@@ -13,12 +13,14 @@
         <StackPanel DockPanel.Dock="Left" MinWidth="200" Background="LightGray" >
             <Button Content="Товары" Click="ShowProducts" Margin="10" Height="30" Background="White" />
             <Button Content="Магазины и склады" Click="ShowLocations" Margin="10" Height="30" Background="White" />
-            <Button Content="Закупки" Click="ShowPurchases" Margin="10" Height="30" Background="White" />
+            <Separator Margin="10,0"/>
             <Button Content="Сотрудники" Click="ShowEmployees" Margin="10" Height="30" Background="White" />
             <Button Content="Клиенты" Click="ShowClients" Margin="10" Height="30" Background="White" />
             <Button Content="Поставщики" Click="ShowSuppliers" Margin="10" Height="30" Background="White" />
+            <Separator Margin="10,0"/>
+            <Button Content="Закупки" Click="ShowPurchases" Margin="10" Height="30" Background="White" />
+            <Button Content="Перемещения" Click="ShowTransfers" Margin="10" Height="30" Background="White" />
             <Button Content="Заказы" Click="ShowOrders" Margin="10" Height="30" Background="White" />
-            
         </StackPanel>
         <ContentControl x:Name="MainContent" />
     </DockPanel>

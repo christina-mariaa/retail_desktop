@@ -17,14 +17,16 @@ using System.Windows.Shapes;
 
 namespace RetailDesktop.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ProductsView.xaml
-    /// </summary>
     public partial class ProductsView : UserControl
     {
+        private ProductsViewModel viewModel;
         public ProductsView()
         {
             InitializeComponent();
+            viewModel = new ProductsViewModel();
+            DataContext = viewModel;
+
+            Loaded += async (s, e) => await viewModel.LoadProducts();
         }
     }
 }

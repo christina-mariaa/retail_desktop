@@ -20,7 +20,7 @@ namespace RetailDesktop.Services
             httpClient = new HttpClient();
         }
 
-        public List<Product> GetProducts()
+        public async Task<List<Product>> GetProducts()
         {
             string url = Constants.BaseUrl + "products/";
 
@@ -29,7 +29,7 @@ namespace RetailDesktop.Services
                 var response = httpClient.GetAsync(url).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    string json = response.Content.ReadAsStringAsync().Result;
+                    string json = await response.Content.ReadAsStringAsync();
                     List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
                     return products;
                 }
@@ -42,7 +42,7 @@ namespace RetailDesktop.Services
             return new List<Product>();
         }
 
-        public bool AddProduct(Product product)
+        public async Task<bool> AddProduct(Product product)
         {
             string url = Constants.BaseUrl + "products/";
 
@@ -50,7 +50,7 @@ namespace RetailDesktop.Services
             {
                 string json = JsonConvert.SerializeObject(product);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = httpClient.PostAsync(url, content).Result;
+                var response = await httpClient.PostAsync(url, content);
 
                 return response.IsSuccessStatusCode;
             }
@@ -61,13 +61,13 @@ namespace RetailDesktop.Services
             }
         }
 
-        public List<ProductCategory> GetProductCategories()
+        public async Task<List<ProductCategory>> GetProductCategories()
         {
             string url = Constants.BaseUrl + "product-categories/";
 
             try
             {
-                var response = httpClient.GetAsync(url).Result;
+                var response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {

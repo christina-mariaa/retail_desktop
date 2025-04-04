@@ -19,13 +19,13 @@ namespace RetailDesktop.Services
             httpClient = new HttpClient();
         }
 
-        public List<Counteragent> GetCouteragent(bool IsClient)
+        public async Task<List<Counteragent>> GetCouteragent(bool IsClient)
         {
             string url = Constants.BaseUrl + (IsClient? "clients-info/" : "suppliers/");
 
             try
             {
-                var response = httpClient.GetAsync(url).Result;
+                var response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,7 +42,7 @@ namespace RetailDesktop.Services
             return new List<Counteragent>();
         }
 
-        public bool AddCounteragent(bool IsClient, Counteragent counteragent)
+        public async Task<bool> AddCounteragent(bool IsClient, Counteragent counteragent)
         {
             string url = Constants.BaseUrl + (IsClient ? "clients-info/" : "suppliers/");
 
@@ -50,7 +50,7 @@ namespace RetailDesktop.Services
             {
                 string json = JsonConvert.SerializeObject(counteragent);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = httpClient.PostAsync(url, content).Result;
+                var response = await httpClient.PostAsync(url, content);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -65,7 +65,6 @@ namespace RetailDesktop.Services
                 MessageBox.Show($"Ошибка добавления {(IsClient ? "клиента" : "поставщика")}:" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-
         }
     }
 }

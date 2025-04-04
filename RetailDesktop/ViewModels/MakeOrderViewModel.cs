@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,8 +50,14 @@ namespace RetailDesktop.ViewModels
         public ICommand AddProductCommand { get; }
         public ICommand SubmitOrderCommand { get; }
 
+        public Action CloseAction { get; set; }
+
+
         private readonly OrderService orderService;
         private readonly LocationService locationService;
+        private readonly EmployeeService employeeService;
+        private readonly ProductService productService;
+        private readonly CounteragentService counteragentService;
 
         public bool IsStoreSelected => SelectedStore != null;
 
@@ -58,29 +65,62 @@ namespace RetailDesktop.ViewModels
         public MakeOrderViewModel()
         {            
             Locations = new ObservableCollection<Location>();
-            Clients = new ObservableCollection<Counteragent>(new CounteragentService().GetCouteragent(true));
-            Employees = new ObservableCollection<Employee>(new EmployeeService().GetEmployees());
+            Clients = new ObservableCollection<Counteragent>();
+            Employees = new ObservableCollection<Employee>();
             OrderPickers = new ObservableCollection<Employee>();
             DeliveryDrivers = new ObservableCollection<Employee>();
-
-            Products = new ObservableCollection<Product>(new ProductService().GetProducts());
+            Products = new ObservableCollection<Product>();
 
             OrderItems = new ObservableCollection<OrderItemPost>();
 
             AddProductCommand = new RelayCommand(AddProduct);
-            SubmitOrderCommand = new RelayCommand(SubmitOrder);
+            SubmitOrderCommand = new RelayCommand(async () => await SubmitOrder());
 
             orderService = new OrderService();
             locationService = new LocationService();
+            employeeService = new EmployeeService();
+            productService = new ProductService();
+            counteragentService = new CounteragentService();
+            
         }
 
         public async Task InitializeAsync()
         {
             var loadedLocations = await locationService.GetLocations();
-            Locations = new ObservableCollection<Location>(loadedLocations);
+            Locations.Clear();
+            foreach (var loc in loadedLocations)
+            {
+                Locations.Add(loc);
+            }
+
+            var loadedEmployees = await employeeService.GetEmployees();
+            Employees.Clear();
+            foreach (var emp in loadedEmployees)
+            {
+                Employees.Add(emp);
+            }
+
+            var loadedProducts = await productService.GetProducts();
+            Products.Clear();
+            foreach (var product in loadedProducts)
+            {
+                Products.Add(product);
+            }
+
+            var loadedClients = await counteragentService.GetCouteragent(true);
+
+            Clients.Clear();
+            foreach (var client in loadedClients)
+            {
+                Clients.Add(client);
+            }
 
             OnPropertyChanged(nameof(Locations));
+            OnPropertyChanged(nameof(Employees));
+            OnPropertyChanged(nameof(Products));
+            OnPropertyChanged(nameof(Clients));
         }
+
         private void AddProduct()
         {
             OrderItems.Add(new OrderItemPost());
@@ -91,9 +131,7 @@ namespace RetailDesktop.ViewModels
             if (SelectedStore == null)
                 return;
 
-            var allEmployees = new EmployeeService().GetEmployees();
-
-            var drivers = allEmployees
+            var drivers = Employees
                 .Where(x => x.Position?.Name?.ToLower() == "курьер" &&
                             x.Location.Code == SelectedStore.Code)
                 .ToList();
@@ -111,9 +149,7 @@ namespace RetailDesktop.ViewModels
             if (SelectedStore == null)
                 return;
 
-            var allEmployees = new EmployeeService().GetEmployees();
-
-            var oderPickers = allEmployees
+            var oderPickers = Employees
                 .Where(x => x.Position?.Name?.ToLower() == "сборщик" &&
                             x.Location.Code == SelectedStore.Code)
                 .ToList();
@@ -125,7 +161,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void SubmitOrder()
+        private async Task SubmitOrder()
         {
             if (SelectedStore == null)
             {
@@ -163,7 +199,7 @@ namespace RetailDesktop.ViewModels
                 OrderItems = OrderItems.ToList()
             };
 
-            bool success = orderService.MakeOrder(newOrder);
+            bool success = await orderService.MakeOrder(newOrder);
 
             if (success)
             {

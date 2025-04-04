@@ -25,13 +25,8 @@ namespace RetailDesktop.Views
         {
             InitializeComponent();
             var viewModel = DataContext as CounteragentsViewModel;
-            if (viewModel != null)
-            {
-                if (viewModel.LoadSuppliersCommand.CanExecute(null))
-                {
-                    viewModel.LoadSuppliersCommand.Execute(null);
-                }
-            }
+
+            Loaded += async (s, e) => await viewModel.LoadSuppliers();
         }
     }
 }

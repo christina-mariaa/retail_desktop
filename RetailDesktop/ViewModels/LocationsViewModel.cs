@@ -24,12 +24,11 @@ namespace RetailDesktop.ViewModels
         {
             Locations = new ObservableCollection<Location> ();
             locationService = new LocationService ();
-            LoadLocationsCommand = new RelayCommand(LoadLocations);
-            AddLocationCommand = new RelayCommand(AddLocation);
-            LoadLocations();
+            LoadLocationsCommand = new RelayCommand(async () => await LoadLocations());
+            AddLocationCommand = new RelayCommand(async () => await AddLocation());
         }
 
-        public async void LoadLocations()
+        public async Task LoadLocations()
         {
             List<Location> locations = await locationService.GetLocations ();
 
@@ -41,7 +40,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        public async void AddLocation()
+        public async Task AddLocation()
         {
             var window = new AddLocationWindow();
 

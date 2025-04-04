@@ -11,20 +11,24 @@ using System.Windows;
 
 namespace RetailDesktop.Services
 {
-    public class PurchaseService
+    public class TransferService
     {
-        private readonly HttpClient httpClient = new HttpClient();
-
-        public async Task<bool> SendPurchase(PurchaseModel purchase)
+        private HttpClient _httpClient;
+        public TransferService() 
         {
-            string url = Constants.BaseUrl + "purchases/";
+            _httpClient = new HttpClient();
+        }
+
+        public async Task<bool> MakeTransfer(Transfer transfer)
+        {
+            string url = Constants.BaseUrl + "transfers/";
 
             try
             {
-                string json = JsonConvert.SerializeObject(purchase);
+                string json = JsonConvert.SerializeObject(transfer);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await httpClient.PostAsync(url, content);
+                var response = await _httpClient.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -32,29 +36,30 @@ namespace RetailDesktop.Services
                 }
                 else
                 {
-                    string errorResponse = response.Content.ReadAsStringAsync().Result;
+                    string errorResponse = await response.Content.ReadAsStringAsync();
                     try
                     {
                         var errorObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(errorResponse);
                         if (errorObj != null && errorObj.ContainsKey("error"))
                         {
-                            MessageBox.Show("Ошибка создания поставки:\n" + errorObj["error"], "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Ошибка при создании перемещения:\n" + errorObj["error"], "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                         else
                         {
-                            MessageBox.Show("Ошибка создания поставки:\n" + errorResponse, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Ошибка при создании перемещения:\n" + errorResponse, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     catch
                     {
                         MessageBox.Show("Ошибка от сервера:\n" + errorResponse, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при попытке создать поставку:\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Сетевая ошибка при попытке сделать перемещение:\n" + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }

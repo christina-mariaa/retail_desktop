@@ -19,13 +19,13 @@ namespace RetailDesktop.Services
             httpClient = new HttpClient();
         }
 
-        public List<Employee> GetEmployees()
+        public async Task<List<Employee>> GetEmployees()
         {
             string url = Constants.BaseUrl + "employees/";
 
             try
             {
-                var response = httpClient.GetAsync(url).Result;
+                var response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,13 +42,13 @@ namespace RetailDesktop.Services
             return new List<Employee>();
         }
 
-        public List<Position> GetPositions()
+        public async Task<List<Position>> GetPositions()
         {
             string url = Constants.BaseUrl + "employees-positions/";
 
             try
             {
-                var response = httpClient.GetAsync(url).Result;
+                var response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,7 +65,7 @@ namespace RetailDesktop.Services
             return new List<Position>();
         }
 
-        public bool AddEmployee(Employee employee)
+        public async Task<bool> AddEmployee(Employee employee)
         {
             string url = Constants.BaseUrl + "employees/";
 
@@ -73,7 +73,7 @@ namespace RetailDesktop.Services
             {
                 string json = JsonConvert.SerializeObject(employee);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = httpClient.PostAsync(url, content).Result;
+                var response = await httpClient.PostAsync(url, content);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)

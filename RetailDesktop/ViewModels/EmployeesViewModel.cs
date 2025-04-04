@@ -19,20 +19,19 @@ namespace RetailDesktop.ViewModels
         public ObservableCollection<Employee> Employees {  get; private set; }  
         public ICommand LoadEmployeesCommand { get; private set; }
         public ICommand AddEmployeeCommand { get; private set; }
-        private EmployeeService employeeService;
+        private readonly EmployeeService employeeService;
 
         public EmployeesViewModel()
         {
             Employees = new ObservableCollection<Employee>();
             employeeService = new EmployeeService();
-            LoadEmployeesCommand = new RelayCommand(LoadEmployees);
-            AddEmployeeCommand = new RelayCommand(AddEmployee);
-            LoadEmployees();
+            LoadEmployeesCommand = new RelayCommand(async () => await LoadEmployees());
+            AddEmployeeCommand = new RelayCommand(async () => await AddEmployee());
         }
 
-        private void LoadEmployees()
+        public async Task LoadEmployees()
         {
-            List<Employee> employees = employeeService.GetEmployees();
+            List<Employee> employees = await employeeService.GetEmployees();
 
             Employees.Clear();
 
@@ -42,7 +41,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void AddEmployee()
+        private async Task AddEmployee()
         {
             var window = new AddEmployeeWindow();
             bool? result = window.ShowDialog();
@@ -50,7 +49,7 @@ namespace RetailDesktop.ViewModels
             if (result == true) 
             {
                 Employee newEmployee = window.NewEmployee;
-                bool success = employeeService.AddEmployee(newEmployee);
+                bool success = await employeeService.AddEmployee(newEmployee);
 
                 if (success == true)
                 {

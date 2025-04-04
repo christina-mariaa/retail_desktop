@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetailDesktop.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,13 @@ namespace RetailDesktop.Views
     /// </summary>
     public partial class LocationsView : UserControl
     {
+        private LocationsViewModel viewModel;
         public LocationsView()
         {
             InitializeComponent();
+            viewModel = new LocationsViewModel();
+            DataContext = viewModel;
+            Loaded += async (s, e) => await viewModel.LoadLocations();
         }
     }
 }

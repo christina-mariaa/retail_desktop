@@ -81,6 +81,7 @@
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\PurchaseService.cs" />
+    <Compile Include="Services\TransferService.cs" />
     <Compile Include="ViewModels\CounteragentsViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />
     <Compile Include="ViewModels\LocationsViewModel.cs" />

@@ -27,14 +27,13 @@ namespace RetailDesktop.ViewModels
         {
             Products = new ObservableCollection<Product>();
             productService = new ProductService();
-            LoadProductsCommand = new RelayCommand(LoadProducts);
-            AddProductCommand = new RelayCommand(AddProduct);
-            LoadProducts();
+            LoadProductsCommand = new RelayCommand(async () => await LoadProducts());
+            AddProductCommand = new RelayCommand(async () => await AddProduct());
         }
 
-        private void LoadProducts()
+        public async Task LoadProducts()
         {
-            List<Product> products = productService.GetProducts();
+            List<Product> products = await productService.GetProducts();
             products.Sort((a, b) => string.Compare(a.Code, b.Code));
 
             Products.Clear();
@@ -45,7 +44,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void AddProduct()
+        private async Task AddProduct()
         {
             var window = new AddProductWindow();
             bool? result = window.ShowDialog();
@@ -53,7 +52,7 @@ namespace RetailDesktop.ViewModels
             if (result == true)
             {
                 Product newProduct = window.NewProduct;
-                bool success = productService.AddProduct(newProduct);
+                bool success = await productService.AddProduct(newProduct);
 
                 if (success) 
                 {

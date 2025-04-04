@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,10 @@ namespace RetailDesktop.Models
     public class Transfer
     {
         [JsonProperty("from_location_id")]
-        public int FromLocationId { get; set; }
+        public string FromLocationId { get; set; }
         [JsonProperty("to_location_id")]
-        public int ToLocationId { get; set; }
+        public string ToLocationId { get; set; }
         [JsonProperty("items")]
-        public List<TransferItem> Items { get; set; }
+        public ObservableCollection<TransferItem> Items { get; set; } = new ObservableCollection<TransferItem>();
     }
 }

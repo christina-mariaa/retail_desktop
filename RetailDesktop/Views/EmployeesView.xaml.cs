@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetailDesktop.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,17 @@ using System.Windows.Shapes;
 
 namespace RetailDesktop.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для EmployeesView.xaml
-    /// </summary>
+
     public partial class EmployeesView : UserControl
     {
+        private EmployeesViewModel viewModel;
         public EmployeesView()
         {
             InitializeComponent();
+            viewModel = new EmployeesViewModel();
+            DataContext = viewModel;
+
+            Loaded += async (s, e) => await viewModel.LoadEmployees();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace RetailDesktop.Services
             httpClient = new HttpClient();
         }
 
-        public List<OrderGet> GetOrders()
+        public async Task<List<OrderGet>> GetOrders()
         {
             string url = Constants.BaseUrl + "orders/";
 
@@ -29,7 +29,7 @@ namespace RetailDesktop.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string json = response.Content.ReadAsStringAsync().Result;
+                    string json = await response.Content.ReadAsStringAsync();
                     List<OrderGet> orders = JsonConvert.DeserializeObject<List<OrderGet>>(json);
                     return orders;
                 }
@@ -42,7 +42,7 @@ namespace RetailDesktop.Services
             return new List<OrderGet>();
         }
 
-        public bool MakeOrder(Order order)
+        public async Task<bool> MakeOrder(Order order)
         {
             string url = Constants.BaseUrl + "orders/";
 
@@ -52,7 +52,7 @@ namespace RetailDesktop.Services
                 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = httpClient.PostAsync(url, content).Result;
+                var response = await httpClient.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -27,7 +27,7 @@
             <ComboBox ItemsSource="{Binding Warehouses}"
                       SelectedValue="{Binding Purchase.Warehouse}"
                       SelectedValuePath="Code"
-                      DisplayMemberPath="Address"
+                      DisplayMemberPath="FullName"
                       Width="300"/>
 
         </StackPanel>

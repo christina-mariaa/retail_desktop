@@ -16,22 +16,14 @@ using System.Windows.Shapes;
 
 namespace RetailDesktop.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ClientView.xaml
-    /// </summary>
     public partial class ClientsView : UserControl
     {
         public ClientsView()
         {
             InitializeComponent();
             var viewModel = DataContext as CounteragentsViewModel;
-            if (viewModel != null)
-            {
-                if (viewModel.LoadClientsCommand.CanExecute(null))
-                {
-                    viewModel.LoadClientsCommand.Execute(null);
-                }
-            }
+
+            Loaded += async (s, e) => await viewModel.LoadClients();
         }
     }
 }

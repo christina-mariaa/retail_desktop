@@ -1,4 +1,5 @@
-﻿using RetailDesktop.ViewModels;
+﻿using RetailDesktop.Services;
+using RetailDesktop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,14 @@ namespace RetailDesktop.Views
 
     public partial class OrdersListView : UserControl
     {
+        private OrdersViewModel viewModel;
         public OrdersListView()
         {
             InitializeComponent();
+            viewModel = new OrdersViewModel();
+            DataContext = viewModel;
+
+            Loaded += async (s, e) => await viewModel.LoadOrders();
         }
     }
 }

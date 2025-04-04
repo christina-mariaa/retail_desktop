@@ -25,16 +25,16 @@ namespace RetailDesktop.ViewModels
         public CounteragentsViewModel() 
         { 
             Counteragents = new ObservableCollection<Counteragent>();
-            LoadClientsCommand = new RelayCommand(LoadClients);
-            LoadSuppliersCommand = new RelayCommand(LoadSuppliers);
-            AddClientCommand = new RelayCommand(AddClient);
-            AddSupplierCommand = new RelayCommand(AddSupplier);
+            LoadClientsCommand = new RelayCommand(async () => await LoadClients());
+            LoadSuppliersCommand = new RelayCommand(async () => await LoadSuppliers());
+            AddClientCommand = new RelayCommand(async () => await AddClient());
+            AddSupplierCommand = new RelayCommand(async () => await AddSupplier());
             counteragentService = new CounteragentService();
         }
 
-        private void LoadClients()
+        public async Task LoadClients()
         {
-            List<Counteragent> clients = counteragentService.GetCouteragent(IsClient: true);
+            List<Counteragent> clients = await counteragentService.GetCouteragent(IsClient: true);
 
             Counteragents.Clear();
 
@@ -44,9 +44,9 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void LoadSuppliers()
+        public async Task LoadSuppliers()
         {
-            List<Counteragent> suppliers = counteragentService.GetCouteragent(IsClient: false);
+            List<Counteragent> suppliers = await counteragentService.GetCouteragent(IsClient: false);
 
             Counteragents.Clear();
 
@@ -56,7 +56,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void AddClient()
+        private async Task AddClient()
         {
             var window = new AddCounteragentWindow();
 
@@ -66,7 +66,7 @@ namespace RetailDesktop.ViewModels
             {
                 Counteragent newCounteragent = window.NewCounteragent;
                 newCounteragent.IsSupplier = false;
-                bool success = counteragentService.AddCounteragent(IsClient: true, newCounteragent);
+                bool success = await counteragentService.AddCounteragent(IsClient: true, newCounteragent);
 
                 if (success == true)
                 {
@@ -79,7 +79,7 @@ namespace RetailDesktop.ViewModels
             }
         }
 
-        private void AddSupplier()
+        private async Task AddSupplier()
         {
             var window = new AddCounteragentWindow();
 
@@ -89,7 +89,7 @@ namespace RetailDesktop.ViewModels
             {
                 Counteragent newCounteragent = window.NewCounteragent;
                 newCounteragent.IsSupplier = true;
-                bool success = counteragentService.AddCounteragent(IsClient: false, newCounteragent);
+                bool success = await counteragentService.AddCounteragent(IsClient: false, newCounteragent);
 
                 if (success == true)
                 {

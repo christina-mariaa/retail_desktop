@@ -23,9 +23,9 @@ namespace RetailDesktop.ViewModels
         public ICommand AddItemCommand { get; set; }
         public ICommand SavePurchaseCommand { get; set; }
 
-        private PurchaseService purchaseService;
-        private CounteragentService counteragentService;
-        private LocationService locationService;
+        private readonly PurchaseService purchaseService;
+        private readonly CounteragentService counteragentService;
+        private readonly LocationService locationService;
 
         public PurchaseItemModel SelectedItem { get; set; }
 
@@ -35,29 +35,40 @@ namespace RetailDesktop.ViewModels
             PurchaseItems = Purchase.PurchaseProducts;
 
             AddItemCommand = new RelayCommand(AddItem);
-            SavePurchaseCommand = new RelayCommand(SavePurchase);
+            SavePurchaseCommand = new RelayCommand(async () => await SavePurchase());
 
             purchaseService = new PurchaseService();
             counteragentService = new CounteragentService();
             locationService = new LocationService();
 
-            Suppliers = new ObservableCollection<Counteragent>(counteragentService.GetCouteragent(false));
+            Suppliers = new ObservableCollection<Counteragent>();
             Warehouses = new ObservableCollection<Location>();
         }
 
         public async Task InitializeAsync()
         {
             try
-            {
-                //// Загружаем поставщиков
-                //var suppliers = await Task.Run(() => counteragentService.GetCouteragent(false));
-                //Suppliers = new ObservableCollection<Counteragent>(suppliers);
-                //OnPropertyChanged(nameof(Suppliers));
-
-                var locations = await Task.Run(() => locationService.GetLocations());
+            {  
+                var locations = await locationService.GetLocations();
                 var warehouses = locations.Where(l => !l.IsStore).ToList();
-                Warehouses = new ObservableCollection<Location>(warehouses);
+
+                Warehouses.Clear();
+
+                foreach (var warehouse in warehouses)
+                {
+                    Warehouses.Add(warehouse);
+                }
+
+                var suppliers = await Task.Run(() => counteragentService.GetCouteragent(false));
+
+                Suppliers.Clear();
+                foreach (var supplier in suppliers)
+                {
+                    Suppliers.Add(supplier);
+                }
+
                 OnPropertyChanged(nameof(Warehouses));
+                OnPropertyChanged(nameof(Suppliers));
             }
             catch (Exception ex)
             {
@@ -70,11 +81,11 @@ namespace RetailDesktop.ViewModels
             PurchaseItems.Add(new PurchaseItemModel());
         }
 
-        private void SavePurchase()
+        private async Task SavePurchase()
         {
             if (!ValidateFields()) return;
 
-            bool result = purchaseService.SendPurchase(Purchase);
+            bool result = await purchaseService.SendPurchase(Purchase);
             if (result)
             {
                 MessageBox.Show("Поставка успешно добавлена!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);

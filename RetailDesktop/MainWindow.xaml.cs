@@ -59,5 +59,10 @@ namespace RetailDesktop
         {
             MainContent.Content = new PurchaseView();
         }
+
+        private void ShowTransfers(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new TransferView();
+        }
     }
 }
