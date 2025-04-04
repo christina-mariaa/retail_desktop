@@ -25,7 +25,7 @@
                     <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}" Width="150"/>
                     <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding CurrentPrice}" Width="50"/>
                     <GridViewColumn Header="Бренд" DisplayMemberBinding="{Binding Brand}" Width="150"/>
-                    <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Category}" Width="150"/>
+                    <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Category.Name}" Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>

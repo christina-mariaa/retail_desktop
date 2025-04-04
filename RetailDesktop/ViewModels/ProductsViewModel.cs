@@ -29,12 +29,13 @@ namespace RetailDesktop.ViewModels
             productService = new ProductService();
             LoadProductsCommand = new RelayCommand(LoadProducts);
             AddProductCommand = new RelayCommand(AddProduct);
-
+            LoadProducts();
         }
 
         private void LoadProducts()
         {
             List<Product> products = productService.GetProducts();
+            products.Sort((a, b) => string.Compare(a.Code, b.Code));
 
             Products.Clear();
 
@@ -57,6 +58,7 @@ namespace RetailDesktop.ViewModels
                 if (success) 
                 {
                     newProduct.CurrentPrice = newProduct.Price;
+                    newProduct.Category = window.ProductCategory;
                     Products.Add(newProduct);
                 }
                 else

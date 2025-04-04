@@ -27,6 +27,7 @@ namespace RetailDesktop.ViewModels
             employeeService = new EmployeeService();
             LoadEmployeesCommand = new RelayCommand(LoadEmployees);
             AddEmployeeCommand = new RelayCommand(AddEmployee);
+            LoadEmployees();
         }
 
         private void LoadEmployees()

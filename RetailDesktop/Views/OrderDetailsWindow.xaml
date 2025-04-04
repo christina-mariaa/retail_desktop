@@ -1,0 +1,71 @@
+﻿<Window x:Class="RetailDesktop.Views.OrderDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RetailDesktop.Views"
+        mc:Ignorable="d"
+        Title="OrderDetailsWindow" Height="500" Width="800"
+        WindowStartupLocation="CenterScreen">
+    
+    <ScrollViewer Margin="20">
+        <StackPanel>
+
+            <TextBlock Text="Информация о заказе" FontWeight="Bold" FontSize="18" Margin="0,0,0,15"/>
+
+            <StackPanel Margin="0,0,0,5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Клиент: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.Client.Name}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Контактная информация клиента: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.Client.ContactInfo}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Адрес доставки: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.DeliveryAddress}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Дата доставки: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.DeliveryDateString}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Комментарий: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.Comment}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Курьер: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.DeliveryDriver.FullName}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Сборщик: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.OrderPicker.FullName}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Статус: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.State}" Margin="15,0,0,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Сумма заказа: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Order.TotalPrice}" Margin="15,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Text="Товары в заказе:" FontWeight="Bold" FontSize="16" Margin="0,20,0,10"/>
+            <ListView ItemsSource="{Binding Order.OrderItems}" Height="300" Margin="0,0,20,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Product.Name}" Width="200"/>
+                        <GridViewColumn Header="Бренд" DisplayMemberBinding="{Binding Product.Brand}" Width="280"/>
+                        <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Product.CurrentPrice}" Width="80"/>
+                        <GridViewColumn Header="Кол-во" DisplayMemberBinding="{Binding Amount}" Width="80"/>
+                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Total}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            
+        </StackPanel>
+    </ScrollViewer>
+</Window>

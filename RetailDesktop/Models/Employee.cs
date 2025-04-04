@@ -9,6 +9,8 @@ namespace RetailDesktop.Models
 {
     public class Employee
     {
+        [JsonProperty("id")]
+        public int Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -29,5 +31,7 @@ namespace RetailDesktop.Models
 
         [JsonProperty("location")]
         public string LocationCode { get; set; }
+        [JsonIgnore]
+        public string FullName => $"{Surname} {Name} {MiddleName}";
     }
 }

@@ -43,7 +43,7 @@
         <StackPanel Grid.Row="4" HorizontalAlignment="Left">
             <TextBlock Text="Магазин" Margin="0,0,0,5"/>
             <ComboBox x:Name="LocationBox"
-                  DisplayMemberPath="Address"
+                  DisplayMemberPath="FullName"
                   SelectedValuePath="Code"
                   Height="25"
                   Width="350"/>

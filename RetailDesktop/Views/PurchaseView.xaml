@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="RetailDesktop.Views.PurchaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RetailDesktop.Views"
+             mc:Ignorable="d" 
+             xmlns:vm="clr-namespace:RetailDesktop.ViewModels">
+    <UserControl.DataContext>
+        <vm:PurchaseViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Left" Margin="0 0 0 10" Grid.Row="0">
+            <Label Content="Поставщик"/>
+            <ComboBox ItemsSource="{Binding Suppliers}"
+                      SelectedValue="{Binding Purchase.Supplier}"
+                      SelectedValuePath="Code"
+                      DisplayMemberPath="Name"
+                      Width="300"/>
+            <Label Content="Склад" Margin="10 0 0 0"/>
+            <ComboBox ItemsSource="{Binding Warehouses}"
+                      SelectedValue="{Binding Purchase.Warehouse}"
+                      SelectedValuePath="Code"
+                      DisplayMemberPath="Address"
+                      Width="300"/>
+
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseItems}" AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedItem}" Margin="0 0 0 10" RowHeight="30">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код товара" Binding="{Binding ProductCode}" Width="100"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding ProductName}" Width="*"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Amount}" Width="110"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding PriceForAnItem}" Width="110"/>
+                <DataGridTextColumn Header="Надбавка %" Binding="{Binding IncreasePercent}" Width="110"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Добавить товар" Command="{Binding AddItemCommand}" Margin="0 0 10 0" Height="30" Width="120"/>
+            <Button Content="Сохранить закупку" Command="{Binding SavePurchaseCommand}" Height="30" Width="150"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

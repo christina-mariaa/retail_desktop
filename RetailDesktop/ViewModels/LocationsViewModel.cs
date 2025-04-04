@@ -26,6 +26,7 @@ namespace RetailDesktop.ViewModels
             locationService = new LocationService ();
             LoadLocationsCommand = new RelayCommand(LoadLocations);
             AddLocationCommand = new RelayCommand(AddLocation);
+            LoadLocations();
         }
 
         public void LoadLocations()

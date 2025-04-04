@@ -19,6 +19,7 @@ namespace RetailDesktop.Views
     public partial class AddProductWindow : Window
     {
         public Product NewProduct { get; set; }
+        public ProductCategory ProductCategory { get; set; }
         public AddProductWindow()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace RetailDesktop.Views
         private void SaveButton_click(object sender, RoutedEventArgs e)
         {
             var selectedCategory = CategoryBox.SelectedItem as ProductCategory;
+            ProductCategory = selectedCategory;
             if (CodeBox.Text == "")
             {
                 MessageBox.Show("Введите код продукта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -53,7 +55,7 @@ namespace RetailDesktop.Views
                     Name = NameBox.Text,
                     Price = price,
                     Brand = BrandBox.Text,
-                    Category = selectedCategory?.Id,
+                    CategoryId = selectedCategory?.Id,
                 };
 
                 DialogResult = true;

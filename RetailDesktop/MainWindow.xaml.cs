@@ -40,5 +40,24 @@ namespace RetailDesktop
         {
             MainContent.Content = new EmployeesView();
         }
+
+        private void ShowClients(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ClientsView();
+        }
+
+        private void ShowSuppliers(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new SuppliersView();
+        }
+
+        private void ShowOrders(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new OrdersListView();
+        }
+        private void ShowPurchases(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new PurchaseView();
+        }
     }
 }

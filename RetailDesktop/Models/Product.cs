@@ -23,7 +23,10 @@ namespace RetailDesktop.Models
         public decimal? Price { get; set; }
 
         [JsonProperty("category")]
-        public int? Category { get; set; }
-
+        public ProductCategory Category { get; set; }
+        [JsonProperty("category_id")]
+        public int? CategoryId { get; set; }
+        [JsonIgnore]
+        public string FullName => $"{Code} {Name}";
     }
 }
