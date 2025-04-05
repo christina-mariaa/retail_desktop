@@ -1,0 +1,39 @@
+﻿<Window x:Class="RetailDesktop.Views.AddCounteragentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RetailDesktop.Views"
+        mc:Ignorable="d"
+        Title="AddClientWindow" Height="350" MinHeight="350" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock Text="Код" Margin="0,0,0,5"/>
+            <TextBox x:Name="CodeBox"  Width="350" Height="25"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left">
+            <TextBlock Text="Имя" Margin="0,0,0,5"/>
+            <TextBox x:Name="NameBox" Width="150" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Left">
+            <TextBlock Text="Контактная информация" Margin="0,0,0,5"/>
+            <TextBox x:Name="ContactInfoBox"  Width="350" Height="25"/>
+        </StackPanel>
+
+        <Button Content="Сохранить"
+                Grid.Row="5"
+                HorizontalAlignment="Center"
+                Height="30"
+                Width="100"
+                Click="SaveButton_Click" />
+    </Grid>
+</Window>

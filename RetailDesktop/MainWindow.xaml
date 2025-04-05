@@ -6,12 +6,34 @@
         xmlns:local="clr-namespace:RetailDesktop"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="500" Width="1000"
+        Title="MainWindow" Height="668" Width="1000" WindowState="Maximized"
         >
     <DockPanel>
 
         <StackPanel DockPanel.Dock="Left" MinWidth="200" Background="LightGray" >
             <Button Content="Товары" Click="ShowProducts" Margin="10" Height="30" Background="White" />
+            <Button Content="Магазины и склады" Click="ShowLocations" Margin="10" Height="30" Background="White" />
+            <Separator Margin="10,0"/>
+            <Button Content="Сотрудники" Click="ShowEmployees" Margin="10" Height="30" Background="White" />
+            <Button Content="Клиенты" Click="ShowClients" Margin="10" Height="30" Background="White" />
+            <Button Content="Поставщики" Click="ShowSuppliers" Margin="10" Height="30" Background="White" />
+            <Separator Margin="10,0"/>
+            <Button Content="Закупки" Click="ShowPurchases" Margin="10" Height="30" Background="White" />
+            <Button Content="Перемещения" Click="ShowTransfers" Margin="10" Height="30" Background="White" />
+            <Button Content="Подпитка" Click="ShowTransfers" Margin="10" Height="30" Background="White" />
+            <Button Content="Продажи" Click="ShowSales" Margin="10" Height="30" Background="White" />
+            <Button Content="Заказы" Click="ShowOrders" Margin="10" Height="30" Background="White" />
+            
+            <GroupBox Header="Отчетность" Margin="2,1" >
+                <StackPanel>
+                    <Button Content="Популярные продукты" Click="ShowPopularProductsReport" Margin="2,10" Height="30" Background="White" />
+                    <Button Content="Прибыльные продукты" Click="ShowProfitableProductsReport" Margin="2,10" Height="30" Background="White" />
+                    <Button Content="Остатки товаров" Click="ShowStockReport" Margin="2,10" Height="30" Background="White" />
+                    <Button Content="Отчет по продажам" Click="ShowSalesReport" Margin="2,10" Height="30" Background="White" />
+                    <Button Content="Сравнение продаж" Click="ShowSalesComparisonReport" Margin="2,10" Height="30" Background="White" />
+                </StackPanel>
+            </GroupBox>
+            
         </StackPanel>
         <ContentControl x:Name="MainContent" />
     </DockPanel>

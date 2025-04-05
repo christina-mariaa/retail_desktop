@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="RetailDesktop.Views.SalesComparisonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:RetailDesktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:SalesComparisonViewModel />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <!-- Выбор дат для двух периодов -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <StackPanel Margin="0,0,20,0">
+                <TextBlock Text="Период 1 - с"/>
+                <DatePicker SelectedDate="{Binding Period1Start}" />
+                <TextBlock Text="по" Margin="0,5,0,0"/>
+                <DatePicker SelectedDate="{Binding Period1End}" />
+            </StackPanel>
+
+            <StackPanel Margin="0,0,20,0">
+                <TextBlock Text="Период 2 - с"/>
+                <DatePicker SelectedDate="{Binding Period2Start}" />
+                <TextBlock Text="по" Margin="0,5,0,0"/>
+                <DatePicker SelectedDate="{Binding Period2End}" />
+            </StackPanel>
+
+            <Button Content="Сравнить" Command="{Binding LoadComparisonCommand}" Width="150" Height="30" VerticalAlignment="Bottom" />
+        </StackPanel>
+
+        <!-- Строчки с разницей -->
+        <ListView ItemsSource="{Binding ComparisonRows}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="{Binding RowColor}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Магазин" DisplayMemberBinding="{Binding Store}" Width="150"/>
+                    <GridViewColumn Header="Продавец" DisplayMemberBinding="{Binding Seller}" Width="150"/>
+                    <GridViewColumn Header="Товар" DisplayMemberBinding="{Binding Product}" Width="150"/>
+                    <GridViewColumn Header="Период 1" DisplayMemberBinding="{Binding QuantityPeriod1}" Width="80"/>
+                    <GridViewColumn Header="Период 2" DisplayMemberBinding="{Binding QuantityPeriod2}" Width="80"/>
+                    <GridViewColumn Header="Изменение" DisplayMemberBinding="{Binding Difference}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </StackPanel>
+</UserControl>
