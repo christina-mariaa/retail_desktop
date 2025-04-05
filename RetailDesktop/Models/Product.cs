@@ -24,9 +24,20 @@ namespace RetailDesktop.Models
 
         [JsonProperty("category")]
         public ProductCategory Category { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
         [JsonProperty("category_id")]
         public int? CategoryId { get; set; }
         [JsonIgnore]
         public string FullName => $"{Code} {Name}";
+
+        [JsonIgnore]
+        public string ImageFullPath =>
+            string.IsNullOrEmpty(Image)
+            ? null
+            : $"http://localhost:8000{Image}";
+
     }
 }

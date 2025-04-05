@@ -18,7 +18,7 @@ namespace RetailDesktop.ViewModels
         public ObservableCollection<Location> Locations { get; set; }
         public ObservableCollection<Location> FromLocations { get; set; }
         public ObservableCollection<Location> ToLocations { get; set; }
-        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<Stock> StockProducts { get; set; }
 
         private Location _selectedFromLocation;
         public Location SelectedFromLocation { 
@@ -29,6 +29,7 @@ namespace RetailDesktop.ViewModels
                 {
                     OnPropertyChanged(nameof(IsFromLocationSelected));
                     UpdateToLocations();
+                    LoadStockProducts();
                 }
             } 
         }
@@ -44,6 +45,7 @@ namespace RetailDesktop.ViewModels
         private readonly LocationService locationService;
         private readonly ProductService productService;
         private readonly TransferService transferService;
+        private readonly StockService stockService;
 
         public TransferViewModel() 
         { 
@@ -52,7 +54,7 @@ namespace RetailDesktop.ViewModels
             ToLocations = new ObservableCollection<Location>();
             Transfer = new Transfer();
             TransferItems = Transfer.Items;
-            Products = new ObservableCollection<Product>();
+            StockProducts = new ObservableCollection<Stock>();
 
             AddItemCommand = new RelayCommand(AddItem);
             MakeTransferCommand = new RelayCommand(async () => await MakeTransfer());
@@ -60,6 +62,7 @@ namespace RetailDesktop.ViewModels
             locationService = new LocationService();
             productService = new ProductService();
             transferService = new TransferService();
+            stockService = new StockService();
         }
 
         private void AddItem()
@@ -81,6 +84,21 @@ namespace RetailDesktop.ViewModels
                 Transfer.Items.Clear();
             }
         }
+
+        private async void LoadStockProducts()
+        {
+            if (SelectedFromLocation == null) return;
+
+            var stocks = await stockService.GetStocksByStore(SelectedFromLocation.Code);
+
+            StockProducts.Clear(); 
+            foreach (var stock in stocks)
+            {
+                StockProducts.Add(stock); 
+            }
+        }
+
+
         private bool ValidateFields()
         {
             if (SelectedFromLocation == null)
@@ -109,11 +127,6 @@ namespace RetailDesktop.ViewModels
 
             foreach (var item in TransferItems)
             {
-                if (item.ProductId <= 0)
-                {
-                    MessageBox.Show("У одного из товаров не выбран продукт", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
 
                 if (item.Quantity <= 0)
                 {
@@ -155,19 +168,9 @@ namespace RetailDesktop.ViewModels
                 ToLocations.Add(loc);
             }
 
-            var loadedProducts = await productService.GetProducts();
-
-            Products.Clear();
-
-            foreach(var product in loadedProducts)
-            { 
-                Products.Add(product); 
-            }
-
             OnPropertyChanged(nameof(Locations));
             OnPropertyChanged(nameof(FromLocations));
             OnPropertyChanged(nameof(ToLocations));
-            OnPropertyChanged(nameof(Products));
         }
     }
 }

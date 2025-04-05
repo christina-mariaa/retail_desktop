@@ -22,6 +22,7 @@ namespace RetailDesktop.Services
             try
             {
                 string json = JsonConvert.SerializeObject(purchase);
+                MessageBox.Show(json);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await httpClient.PostAsync(url, content);

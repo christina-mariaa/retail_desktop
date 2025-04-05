@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace RetailDesktop
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -63,6 +60,36 @@ namespace RetailDesktop
         private void ShowTransfers(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new TransferView();
+        }
+
+        private void ShowSales(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new SalesView();
+        }
+
+        private void ShowPopularProductsReport(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new PopularProductsChart();
+        }
+
+        private void ShowProfitableProductsReport(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ProfitableProductsReportView();
+        }
+
+        private void ShowStockReport(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new StockReportView();
+        }
+
+        private void ShowSalesReport(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new SalesReportView();
+        }
+
+        private void ShowSalesComparisonReport(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new SalesComparisonView();
         }
     }
 }

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace RetailDesktop.Models
 {
-    public class TransferItem
+    public class SaleItemPost
     {
         [JsonProperty("product_id")]
         public string ProductId { get; set; }
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+
+        [JsonProperty("amount")]
+        public int Amount { get; set; }
     }
 }

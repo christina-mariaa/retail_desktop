@@ -33,7 +33,7 @@
         </StackPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseItems}" AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedItem}" Margin="0 0 0 10" RowHeight="30">
+                  SelectedItem="{Binding SelectedItem}" Margin="0 0 0 10" RowHeight="30" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Код товара" Binding="{Binding ProductCode}" Width="100"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding ProductName}" Width="*"/>

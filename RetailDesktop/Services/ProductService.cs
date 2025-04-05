@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
+
 
 namespace RetailDesktop.Services
 {
@@ -42,16 +44,30 @@ namespace RetailDesktop.Services
             return new List<Product>();
         }
 
-        public async Task<bool> AddProduct(Product product)
+        public async Task<bool> AddProduct(Product product, string imageFilePath)
         {
             string url = Constants.BaseUrl + "products/";
 
             try
             {
-                string json = JsonConvert.SerializeObject(product);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(url, content);
+                var formData = new MultipartFormDataContent();
 
+                formData.Add(new StringContent(product.Code), "code");
+                formData.Add(new StringContent(product.Name), "name");
+                formData.Add(new StringContent(product.Brand ?? ""), "brand");
+                formData.Add(new StringContent(product.Price?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0"), "price");
+                formData.Add(new StringContent(product.CategoryId?.ToString() ?? ""), "category_id");
+
+                if (!string.IsNullOrEmpty(imageFilePath) && File.Exists(imageFilePath))
+                {
+                    var fileStream = File.OpenRead(imageFilePath);
+                    var fileContent = new StreamContent(fileStream);
+                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+
+                    formData.Add(fileContent, "image", Path.GetFileName(imageFilePath));
+                }
+
+                var response = await httpClient.PostAsync(url, formData);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -82,5 +98,42 @@ namespace RetailDesktop.Services
             }
             return new List<ProductCategory>();
         }
+
+        public async Task<bool> PatchProductPriceAsync(string productCode, decimal newPrice)
+        {
+            string url = $"{Constants.BaseUrl}products/{productCode}/";
+
+            try
+            {
+                var payload = new
+                {
+                    price = newPrice
+                };
+
+                var json = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), url)
+                {
+                    Content = content
+                };
+
+                var response = await httpClient.SendAsync(request);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Ошибка изменения цены: " + error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при отправке запроса PATCH: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
     }
 }

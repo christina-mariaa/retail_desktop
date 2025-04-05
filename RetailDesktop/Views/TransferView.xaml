@@ -37,10 +37,10 @@
                     <DataGridTemplateColumn Header="Товар" Width="200">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DataContext.Products, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                <ComboBox ItemsSource="{Binding DataContext.StockProducts, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                   SelectedValue="{Binding ProductId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="Code"
-                                  DisplayMemberPath="FullName"/>
+                                  SelectedValuePath="Product.Code"
+                                  DisplayMemberPath="DisplayName"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

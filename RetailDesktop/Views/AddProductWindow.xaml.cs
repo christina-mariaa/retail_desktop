@@ -19,6 +19,7 @@ namespace RetailDesktop.Views
     public partial class AddProductWindow : Window
     {
         public Product NewProduct { get; set; }
+        public string ImageFilePath { get; set; }
         public ProductCategory ProductCategory { get; set; }
         public AddProductWindow()
         {
@@ -30,6 +31,23 @@ namespace RetailDesktop.Views
             var productService = new ProductService();
             List<ProductCategory> categories = await productService.GetProductCategories();
             CategoryBox.ItemsSource = categories;
+        }
+
+        private string imageFilePath;
+
+        private void UploadImage_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                imageFilePath = openFileDialog.FileName;
+                ImageFilePath = imageFilePath;
+                PreviewImage.Source = new BitmapImage(new Uri(imageFilePath));
+            }
         }
 
         private void SaveButton_click(object sender, RoutedEventArgs e)

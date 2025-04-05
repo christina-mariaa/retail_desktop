@@ -16,7 +16,7 @@
         <ListView Grid.Row="0" ItemsSource="{Binding Products}" Margin="10">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Height" Value="80"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View >
@@ -26,6 +26,24 @@
                     <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding CurrentPrice}" Width="50"/>
                     <GridViewColumn Header="Бренд" DisplayMemberBinding="{Binding Brand}" Width="150"/>
                     <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Category.Name}" Width="150"/>
+                    <GridViewColumn Header="Изображение" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Image}" Width="80" Height="80" Stretch="UniformToFill"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Изменить цену" Width="110">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button 
+                                    Content="Изменить"
+                                    Command="{Binding DataContext.ChangePriceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Height="27" Width="90" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -43,7 +61,14 @@
                 Command="{Binding AddProductCommand}" 
                 Height="30"
                 Width="150"
-                Margin="10,0,10,0"/> 
+                Margin="10,0,10,0"/>
+
+            <Button 
+                Content="Выгрузить товары" 
+                Command="{Binding ExportProductsCommand}" 
+                Height="30"
+                Width="150"
+                Margin="10,0,10,0"/>
         </StackPanel>
     </Grid>
 </UserControl>
