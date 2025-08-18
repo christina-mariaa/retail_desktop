@@ -32,3 +32,14 @@
 
 Далее представлены несколько скринов для демонстрации функционала программы
 
+![Товары](docs/images/goods.png)
+
+![Оформление продажи](docs/images/sell.png)
+
+![Детали заказа](docs/images/order-details.png)
+
+![Перемещения между складами](docs/images/transfer.png)
+
+![Отчет 1](docs/images/report1.png)
+
+![Отчет 2](docs/images/report2.png)
